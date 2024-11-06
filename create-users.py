@@ -1,6 +1,11 @@
 #!/usr/bin/python3
+#John Xiu
+#Automating User Management
+#November 5, 2024
+#November 6, 2024
 
-#Allows the python script to interact with the operating system.
+
+#"import OS" allows the python script to interact with the operating system.
 import os
 import re
 import sys
@@ -8,15 +13,15 @@ import sys
 def main():
     for line in sys.stdin:
 
-        #this "regular expression" is searching for the presence of a character - what is it and why?
+        #this "regular expression" is searching for any line that starts with the "#"
         match = re.match("^#",line)
 
-        #what is this field doing?
+        #The "line.strip" removes the leading and trailing whitespace from the line, and "split" splits the stripped line into a list of substrings using ":" as the delimiter
         fields = line.strip().split(':')
 
-        #what would an appropriate comment be for describing what this IF statement is checking for?
-        #what happens if the IF statement evaluates to true?
-        #how does this IF statement rely on what happened in the prior two lines of code? The match and fields lines.
+        #This IF statement is checking  if the line it's reading is a comment, and if it does not contain exactly 5 fields.
+        #If the IF statement evaluates to be true, then the "continue" statement is executed, which means it will skip that line
+        #The "match" is set to check if the line starts with "#", and "fields" is created by splitting the line on ":". So the IF statement uses match to skip lines that are comment, and fields to skip lines that don't have exactly 5 fields
         if match or len(fields) != 5:
             continue
 
@@ -34,7 +39,7 @@ def main():
         os.system(cmd)
 
         for group in groups:
-            #what is this if statement looking for?
+            #This IF statement is checking if the group  is not equal to "-". "-" might indicate that there is a placeholder or an empty group.
             if group != '-':
                 print("==> Assigning %s to the %s group..." % (username,group))
                 cmd = "/usr/sbin/adduser %s %s" % (username,group)
